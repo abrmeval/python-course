@@ -22,3 +22,23 @@ ____/______/______/______/______/_____"=.o|o_.--""___/______/______/______/____
 ''')
 print("Welcome to Treasure Island.")
 print("Your mission is to find the treasure.")
+decision = input("You're at a cross road. Where do you want to go?\n  Type \"left\" or \"right\"\n")
+
+if decision == "Right" or decision == "right":
+    print("Fall into a hole.\nGame over.")
+elif decision == "Left" or decision == "left":
+    decision = input(f"You've come to a lake. There is an island in the middle of the lake.\nType \"wait\" to wait for a boat. Type \"swim\" to swim across.\n")
+    if decision == "Swim" or decision == "swim":
+        print("Attacked by trout.\nGame over.")
+    elif decision == "Wait" or decision == "wait":
+        decision = input(f"You are in front of a door.\nType \"red\", \"yellow\", \"blue\" for a door or any key if you want another path.\n")
+        if decision == "Yellow" or decision == "yellow":
+            print("You Win!")
+        else:
+            print("Game over")
+    else:
+        print("Game over")
+else:
+    print("Game over")
+
+# We can use lower() function for the strings
