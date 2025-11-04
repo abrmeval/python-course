@@ -6,4 +6,14 @@ states_of_america = ["Delaware", "Pennsylvania", "New Jersey", "Georgia", "Conne
                      "North Dakota", "South Dakota", "Montana", "Washington", "Idaho", "Wyoming", "Utah", "Oklahoma",
                      "New Mexico", "Arizona", "Alaska", "Hawaii"]
 
-print(states_of_america)
+#It generates an index out of range error if the array goes up to 49 index
+# print(states_of_america[50])
+
+fruits = ["Cherry", "Apple", "Pear"]
+veg = ["Cucumber", "Kale", "Spinnach"]
+
+#Nested list
+#A list that has  other lists
+fruits_and_veg = [fruits, veg]
+
+print(fruits_and_veg)
