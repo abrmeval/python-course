@@ -12,12 +12,10 @@ def deal_cards(cards, n):
 def check_blackjack(user_cards, computer_cards, user_score, computer_score):
     # If computer gets a blackjack (Ace + 10 value card).
     if len(computer_cards) == 2 and  computer_score == 21:
-        # print("You lose 😤")
         return "COMPUTER"
 
     # If user gets a blackjack (Ace + 10 value card).
     if len(user_cards) == 2 and user_score == 21:
-        # print("You win 😁")
         return "USER"
 
     return "NONE"
@@ -51,18 +49,19 @@ while want_play:
         user_cards = []
         deal_cards(computer_cards, 2)
         deal_cards(user_cards, 2)
-        user_score = validate_ace(sum(user_cards))
-        computer_score = validate_ace(sum(computer_cards))
+        user_score = validate_ace(user_cards, sum(user_cards))
+        computer_score = validate_ace(computer_cards, sum(computer_cards))
         winner = check_blackjack(user_cards, computer_cards, user_score, computer_score)
 
         #If there is a winner
         if winner != "NONE":
             message = ""
             if winner == "COMPUTER":
-                message = "You lose 😤"
+                message = "Lose, opponent has a Blackjack 😱"
+                print_final_score(user_cards, computer_cards, user_score, computer_score, message)
             else:
                 message = "You win 😁"
-            print_final_score(user_cards, computer_cards, user_score, computer_score, message)
+                print_final_score(user_cards, computer_cards, user_score, computer_score, message)
 
         else:
             can_ask_another = True
@@ -71,28 +70,40 @@ while want_play:
                 another_card = input("Type 'y' to get another card, type 'n' to pass  ").lower()
                 if another_card == "y":
                     deal_cards(user_cards, 1)
-                    user_score = validate_ace(sum(user_cards))
+                    user_score = validate_ace(user_cards, sum(user_cards))
                     if user_score > 21:
-                        print_final_score(user_cards, computer_cards, user_score, computer_score, "You went over. You lose 😤")
+                        print_final_score(user_cards, computer_cards, user_score, computer_score, "You went over. You lose 😭")
                         can_ask_another = False
+                        winner = "COMPUTER"
                 else:
-                    while computer_score < 17:
-                        computer_score = validate_ace(sum(computer_cards))
+                    can_ask_another = False
+            #No winner
+            if winner == "NONE":
+                while computer_score < 17:
+                    computer_score = validate_ace(computer_cards, sum(computer_cards))
+                    deal_cards(computer_cards, 1)
 
-                    # If user score above 21
-                    if computer_score > 21:
-                        print_final_score(user_cards, computer_cards, user_score, computer_score, "You win 😁")
+                # If user score above 21
+                if computer_score > 21:
+                    print_final_score(user_cards, computer_cards, user_score, computer_score, "Opponent went over. You win 😁")
+                    can_ask_another = False
+                    winner = "USER"
+                # If equal scores
+                elif user_score == computer_score:
+                     print_final_score(user_cards, computer_cards, user_score, computer_score, "It is a draw")
+                     can_ask_another = False
+                     winner = "DRAW"
 
-                    # If equal scores
-                    elif user_score == computer_score:
-                        print_final_score(user_cards, computer_cards, user_score, computer_score, "It is a draw")
+                # If user score greater than computer score
+                elif user_score > computer_score:
+                    print_final_score(user_cards, computer_cards, user_score, computer_score, "You win 😁")
+                    can_ask_another = False
+                    winner = "USER"
 
-                    # If user score greater than computer score
-                    elif user_score > computer_score:
-                        print_final_score(user_cards, computer_cards, user_score, computer_score, "You win 😁")
-
-                    # Computer score is greater than user score
-                    else:
-                        print_final_score(user_cards, computer_cards, user_score, computer_score, "You lose 😤")
+                # Computer score is greater than user score
+                else:
+                    print_final_score(user_cards, computer_cards, user_score, computer_score, "You lose 😤")
+                    can_ask_another = False
+                    winner = "COMPUTER"
     else:
         want_play = False
