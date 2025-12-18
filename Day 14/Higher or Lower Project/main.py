@@ -12,7 +12,6 @@
 # repeat steps before
 #If user is wrong, we print the result and final message
 import random
-
 from  art import logo, vs
 from game_data import data
 
@@ -38,8 +37,8 @@ def get_user_index(letter):
     return -1
 
 def get_random_index(indexes):
-    idx = 0
-    while idx in indexes:
+    idx = -1
+    while idx < 0 or idx in indexes:
         idx = random.randint(0, len(data) - 1)
     return idx
 
@@ -59,11 +58,11 @@ def compare(first_item, second_item, user_idx):
 
     return False
 
-def get_item_message(item, s_index):
-    prefix = "Compare A: "
-    if s_index == 1:
-        prefix = "Against B: "
-    return f"Compare {prefix}: {item["name"]}, a {item["description"]}, from {item["country"]}."
+def get_item_message(item, isFirstOne):
+    prefix = "Compare A"
+    if not isFirstOne:
+        prefix = "Against B"
+    return f"{prefix}: {item["name"]}, a {item["description"]}, from {item["country"]}."
 
 indexes = []
 score = 0
@@ -84,7 +83,7 @@ while isRight:
     first_item = get_item(indexes[0])
     second_item = get_item(indexes[1])
 
-    print_start_comparison(get_item_message(first_item, 0), get_item_message(second_item, 1), include_msg_score)
+    print_start_comparison(get_item_message(first_item, True), get_item_message(second_item, False), include_msg_score)
     user_idx = get_user_index(input("Who has more followers? Type 'A' or 'B': ").upper())
     isRight = compare(first_item, second_item, user_idx)
 
